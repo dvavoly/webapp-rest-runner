@@ -1,20 +1,20 @@
 package org.example.rest;
 
 import com.google.gson.Gson;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.service.FileService;
+import org.example.service.UserService;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(name = "FileServlet", urlPatterns = "/api/v1/files")
-public class FileController extends HttpServlet {
+@WebServlet(name = "UserServlet", urlPatterns = "/api/v1/users")
+public class UserController extends HttpServlet {
 
-    private final FileService fileService = FileService.getInstance();
-
+    private final UserService service = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -22,7 +22,7 @@ public class FileController extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try (var writer = resp.getWriter()) {
-            fileService.getAllFiles().forEach(file -> writer.write(gson.toJson(file)));
+            service.getAllUsers().forEach(userDto -> writer.write(gson.toJson(userDto)));
         }
     }
 }

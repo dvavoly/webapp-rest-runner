@@ -9,7 +9,7 @@ import org.apache.catalina.webresources.StandardRoot;
 
 import java.io.File;
 
-public class Main {
+public class EmbeddedTomcatRunner {
     public static void main(String[] args) throws LifecycleException {
         String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
