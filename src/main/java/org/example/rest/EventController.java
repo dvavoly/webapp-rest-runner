@@ -23,7 +23,7 @@ public class EventController extends HttpServlet {
         resp.setContentType("application/json");
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try (var writer = resp.getWriter()) {
-            eventService.getAllEvents().forEach(eventDto -> writer.write(gson.toJson(eventDto)));
+            eventService.getAllEvents().forEach(eventDto -> writer.println(gson.toJson(eventDto)));
         }
     }
 }

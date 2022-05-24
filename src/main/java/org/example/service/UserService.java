@@ -6,6 +6,7 @@ import org.example.repository.UserRepository;
 import org.example.repository.impl.UserRepositoryImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserService {
 
@@ -30,6 +31,17 @@ public class UserService {
                 .id(savedUser.getId())
                 .userName(savedUser.getUserName())
                 .build();
+    }
+
+    public Optional<UserDto> getUserByUserName(String userName) {
+        var foundUser = repository.findByName(userName);
+        if (foundUser.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(UserDto.builder()
+                .id(foundUser.get().getId())
+                .userName(foundUser.get().getUserName())
+                .build());
     }
 
     public UserDto updateUser(Integer id, String userName) {

@@ -3,6 +3,9 @@ package org.example.repository.impl;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import org.example.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,17 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    public Optional<User> findByName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("User name cannot be null or blank");
+        }
+        try (var session = HibernateUtil.openSession()) {
+            var tx = session.beginTransaction();
+            var query = session.createQuery("select u from User u where u.userName=:name", User.class);
+            query.setParameter("name", name);
+            return query.uniqueResultOptional();
+        }
+    }
     @Override
     public User save(User user) {
         if (user == null) {
