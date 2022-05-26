@@ -19,8 +19,8 @@ class FileRepositoryImplTest {
 
     @Test
     void getAllFiles() {
-        files.forEach(System.out::println);
         var files = repository.findAll();
+        files.forEach(System.out::println);
     }
 
     @Test
