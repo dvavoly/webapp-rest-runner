@@ -18,20 +18,31 @@ import static org.example.util.HttpUtil.sendResponse;
 public class UserController extends HttpServlet {
 
     private final UserService service = UserService.getInstance();
+    private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Gson gson = new Gson();
         resp.setContentType(Constant.APPLICATION_JSON);
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+        var userId = Optional.ofNullable(req.getHeader(Constant.USER_ID));
+
         try (var writer = resp.getWriter()) {
+            if (userId.isPresent()) {
+                var idOfUser = Integer.valueOf(userId.get());
+                var user = service.getUserById(idOfUser);
+                var events = service.getAllEventsByUserId(idOfUser);
+                writer.println(gson.toJson(user.get()));
+                writer.println(gson.toJson(events));
+                return;
+            }
+
             service.getAllUsers().forEach(userDto -> writer.println(gson.toJson(userDto)));
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Gson gson = new Gson();
         var userName = Optional.ofNullable(req.getHeader(Constant.USER_NAME));
         if (userName.isEmpty()) {
             sendResponse(HttpServletResponse.SC_NOT_FOUND, "User name is required", resp);
@@ -47,7 +58,6 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Gson gson = new Gson();
         var id = Optional.ofNullable(req.getHeader(Constant.USER_ID));
         var userName = Optional.ofNullable(req.getHeader(Constant.USER_NAME));
         if (id.isEmpty() || userName.isEmpty()) {

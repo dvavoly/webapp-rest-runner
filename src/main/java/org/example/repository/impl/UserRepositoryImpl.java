@@ -3,9 +3,6 @@ package org.example.repository.impl;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import org.example.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +12,10 @@ public class UserRepositoryImpl implements UserRepository {
     private static final UserRepository INSTANCE = new UserRepositoryImpl();
 
     private UserRepositoryImpl() {
+    }
+
+    public static UserRepository getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -79,9 +80,5 @@ public class UserRepositoryImpl implements UserRepository {
             foundUser.ifPresent(session::remove);
             tx.commit();
         }
-    }
-
-    public static UserRepository getInstance() {
-        return INSTANCE;
     }
 }

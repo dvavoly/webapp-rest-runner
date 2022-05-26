@@ -92,7 +92,7 @@ public class FileController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         var id = Optional.ofNullable(req.getHeader(Constant.FILE_ID));
         if (id.isEmpty()) {
-            sendResponse(HttpServletResponse.SC_NOT_FOUND, "File id is required", resp);
+            sendResponse(HttpServletResponse.SC_NOT_FOUND, "The File id is required", resp);
             return;
         }
         fileService.deleteFile(Integer.valueOf(id.get()));

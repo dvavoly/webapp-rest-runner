@@ -4,6 +4,7 @@ import org.example.dto.EventDto;
 import org.example.entity.Event;
 import org.example.repository.EventRepository;
 import org.example.repository.impl.EventRepositoryImpl;
+import org.example.util.Constant;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,9 +15,13 @@ public class EventService {
 
     private final EventRepository eventRepository = EventRepositoryImpl.getInstance();
     private final FileService fileService = FileService.getInstance();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constant.FORMATTER);
 
     private EventService() {
+    }
+
+    public static EventService getInstance() {
+        return INSTANCE;
     }
 
     public List<EventDto> getAllEvents() {
@@ -52,7 +57,7 @@ public class EventService {
 
     public void saveEvent(LocalDateTime time, Integer userId, Integer fileId) {
 
-        var event = eventRepository.save(Event.builder()
+        eventRepository.save(Event.builder()
                 .uploadTime(time)
                 .userId(userId)
                 .fileId(fileId)
@@ -61,9 +66,5 @@ public class EventService {
 
     public void deleteEvent(Integer eventId) {
         eventRepository.deleteById(eventId);
-    }
-
-    public static EventService getInstance() {
-        return INSTANCE;
     }
 }

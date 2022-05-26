@@ -73,8 +73,6 @@ public class FileService {
             }
 
             var downloadUri = Path.of(
-                    req.getScheme(),
-                    "/:",
                     req.getServerName(),
                     Constant.STORAGE_FOLDER,
                     user.getUserName(),
