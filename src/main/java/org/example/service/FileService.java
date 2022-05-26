@@ -72,10 +72,16 @@ public class FileService {
                 Files.copy(inputStream, savePath, StandardCopyOption.REPLACE_EXISTING);
             }
 
+            var downloadUri = Path.of(
+                    req.getServerName(),
+                    Constant.STORAGE_FOLDER,
+                    user.getUserName(),
+                    file.getSubmittedFileName());
+
             result = FileDto.builder()
                     .fileName(file.getSubmittedFileName())
                     .fileType(Files.probeContentType(savePath))
-                    .fileDownloadUri(savePath.toUri().toString())
+                    .fileDownloadUri(downloadUri.toString())
                     .build();
 
         } catch (IOException | ServletException e) {
