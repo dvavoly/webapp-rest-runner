@@ -34,14 +34,14 @@ public class UserService {
     }
 
     public Optional<UserDto> getUserByUserName(String userName) {
-        var foundUser = repository.findByName(userName);
-        if (foundUser.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(UserDto.builder()
-                .id(foundUser.get().getId())
-                .userName(foundUser.get().getUserName())
-                .build());
+        return repository.findAll().stream()
+                .filter(user -> user.getUserName().equals(userName))
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .userName(user.getUserName())
+                        .build())
+                .findFirst()
+                .or(Optional::empty);
     }
 
     public UserDto updateUser(Integer id, String userName) {

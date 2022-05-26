@@ -8,4 +8,5 @@ import lombok.Value;
 public class EventDto {
     Integer id;
     String uploadTime;
+    String fileName;
 }

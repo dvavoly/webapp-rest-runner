@@ -21,15 +21,15 @@ class EventRepositoryImplTest {
 
     @Test
     void findById() {
-        int id = 9;
+        int id = 12;
         var byId = repository.findById(id);
         assertEquals(id, byId.get().getId());
     }
 
     @Test
     void save() {
-        int uId = 3;
-        int fId = 9;
+        int uId = 4;
+        int fId = 15;
         LocalDateTime time = LocalDateTime.now();
         var event = Event.builder()
                 .userId(uId)

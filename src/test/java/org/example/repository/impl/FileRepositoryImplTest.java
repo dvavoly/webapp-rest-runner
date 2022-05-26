@@ -51,6 +51,6 @@ class FileRepositoryImplTest {
 
     @Test
     void deleteFileById() {
-        repository.deleteById(12);
+        repository.deleteById(15);
     }
 }
