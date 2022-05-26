@@ -56,10 +56,18 @@ public class FileService {
 
     public FileDto persistFileToStorage(HttpServletRequest req, UserDto user) {
         FileDto result;
+        req.getServletContext().getRealPath("");
         try {
             var file = req.getPart("file");
-            createFolderIfNotExist(Path.of(Constant.STORAGE_FOLDER, user.getUserName()));
-            var savePath = Path.of(Constant.STORAGE_FOLDER, user.getUserName(), file.getSubmittedFileName());
+            createFolderIfNotExist(Path.of(
+                    req.getServletContext().getRealPath(""),
+                    Constant.STORAGE_FOLDER,
+                    user.getUserName()));
+            var savePath = Path.of(
+                    req.getServletContext().getRealPath(""),
+                    Constant.STORAGE_FOLDER,
+                    user.getUserName(),
+                    file.getSubmittedFileName());
             try (var inputStream = file.getInputStream()) {
                 Files.copy(inputStream, savePath, StandardCopyOption.REPLACE_EXISTING);
             }
